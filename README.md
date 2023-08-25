@@ -1,2 +1,2 @@
-# cadastroJS-backend
+# cadastroJS
 sistema de cadastro de funcionários
