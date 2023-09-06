@@ -1,10 +1,10 @@
-const connection = require("./connection")
+const { db } = require("../app")
 
 const getAll = async () => {
   const query = "SELECT * FROM tbl_employees;"
 
   // Executa a consulta SQL e retorna os resultados
-  const rows = await connection.execute(query)
+  const rows = await db.execute(query)
   // Cria um array de funcionários.
   const employees = []
   // Percorre os resultados da consulta e adiciona cada registro ao array de funcionários.
@@ -30,7 +30,7 @@ const employeeAdded = async (employee) => {
     "INSERT INTO tbl_employees (employee_id, employee_name, employee_cpf, employee_email, employee_tel, employee_departament, employee_gender, employee_wage, created_at)" +
     "VALUES(?,?,?,?,?,?,?,?,?)"
 
-  const EmployeeAdded = await connection.execute(query, [
+  const EmployeeAdded = await db.execute(query, [
     employee_id,
     employee_name,
     employee_cpf,
@@ -59,7 +59,7 @@ const updateEmployee = async (employee_id, employee) => {
     "UPDATE tbl_employees SET employee_name = ?, employee_cpf = ?, employee_email = ?, employee_tel = ?, employee_departament = ?," +
     "employee_gender = ?, employee_wage = ? WHERE employee_id = ?"
 
-  const updatedEmployee = await connection.execute(query, [
+  const updatedEmployee = await db.execute(query, [
     employee_id,
     employee_name,
     employee_cpf,
@@ -75,7 +75,7 @@ const updateEmployee = async (employee_id, employee) => {
 
 const deleteEmployee = async (employee_id) => {
   const query = "DELETE FROM tbl_employees WHERE employee_id = ?"
-  const removedEmployee = await connection.execute(query, [employee_id])
+  const removedEmployee = await db.execute(query, [employee_id])
 
   return removedEmployee
 }
