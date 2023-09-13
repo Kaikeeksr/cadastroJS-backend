@@ -26,6 +26,9 @@ const employeeAdded = async (employee) => {
     employee_wage
   } = employee
   const dateUTC = new Date(Date.now()).toUTCString()
+  const dateBR = new Date(dateUTC).toLocaleDateString("pt-BR", {
+    timeZone: "America/Sao_Paulo"
+  })
   const query =
     "INSERT INTO tbl_employees (employee_id, employee_name, employee_cpf, employee_email, employee_tel, employee_departament, employee_gender, employee_wage, created_at)" +
     "VALUES(?,?,?,?,?,?,?,?,?)"
@@ -39,7 +42,7 @@ const employeeAdded = async (employee) => {
     employee_departament,
     employee_gender,
     employee_wage,
-    dateUTC
+    dateBR
   ])
 
   return EmployeeAdded[0]
