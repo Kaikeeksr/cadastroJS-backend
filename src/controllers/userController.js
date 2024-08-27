@@ -1,16 +1,20 @@
-const userModel = require('../models/userModel')
+import * as userModel from '../models/userModel.js'
 
-const getAll = async (req, res) => {
-  const employees = await userModel.getAll()
-  return res.status(200).json(employees)
+export const getAll = async (req, res) => {
+  try {
+    const users = await userModel.getAll()
+    res.status(200).json(users)
+  } catch (error) {
+    errorHandler(res, error)
+  }
 }
 
-const employeeAdded = async (req, res) => {
+export const employeeAdded = async (req, res) => {
   try {
-    const employeeAdded = await userModel.employeeAdded(req.body)
-    return res.status(201).json(employeeAdded)
+    const newEmployee = await userModel.employeeAdded(req.body)
+    res.status(201).json(newEmployee)
   } catch (error) {
-    //TRATANDO VALOR DUPLICADO
+    //Tratando erro de duplicidade do banco
     if (error.code === 'ER_DUP_ENTRY') {
       const match = error.sqlMessage.match(
         /'([^']+)' for key '([^']+)\.([^']+)'/
@@ -34,30 +38,33 @@ const employeeAdded = async (req, res) => {
       return res.status(400).json({ error: error_msg })
     }
 
-    console.log(error)
-    return res
-      .status(400)
-      .json({ error: 'An error occurred while processing your request.' })
+    res.status(500).json({ error: error.message })
   }
 }
 
-const deleteEmployee = async (req, res) => {
-  const { employee_id } = req.params
-
-  await userModel.deleteEmployee(employee_id)
-  return res.status(204).json({ message: 'o usuário foi deletado' })
+export const updateEmployee = async (req, res) => {
+  try {
+    const updatedEmployee = await userModel.updateEmployee(
+      req.params.employee_id,
+      req.body
+    )
+    res.status(200).json(updatedEmployee)
+  } catch (error) {
+    errorHandler(res, error)
+  }
 }
 
-const updateEmployee = async (req, res) => {
-  const { employee_id } = req.params
-
-  await userModel.updateEmployee(employee_id, req.body)
-  return res.status(204).json({ message: 'o usuário foi atualizado' })
+export const deleteEmployee = async (req, res) => {
+  try {
+    const removedEmployee = await userModel.deleteEmployee(
+      req.params.employee_id
+    )
+    res.status(200).json(removedEmployee)
+  } catch (error) {
+    errorHandler(res, error)
+  }
 }
 
-module.exports = {
-  getAll,
-  employeeAdded,
-  deleteEmployee,
-  updateEmployee,
+function errorHandler(res, error) {
+  res.status(500).json({ error: error.message })
 }
