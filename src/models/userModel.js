@@ -1,7 +1,7 @@
-const connection = require("./connection")
+import connection from './connection.js'
 
-const getAll = async () => {
-  const query = "SELECT * FROM tbl_employees;"
+export const getAll = async () => {
+  const query = 'SELECT * FROM tbl_employees;'
 
   // Executa a consulta SQL e retorna os resultados
   const rows = await connection.execute(query)
@@ -11,10 +11,10 @@ const getAll = async () => {
   for (const row of rows) {
     employees.push(row)
   }
-  return employees[0] //retornando a primeira posição do array
+  return employees[0] // retornando a primeira posição do array
 }
 
-const employeeAdded = async (employee) => {
+export const employeeAdded = async (employee) => {
   const {
     employee_id,
     employee_name,
@@ -23,15 +23,15 @@ const employeeAdded = async (employee) => {
     employee_tel,
     employee_departament,
     employee_gender,
-    employee_wage
+    employee_wage,
   } = employee
   const dateUTC = new Date(Date.now()).toUTCString()
-  const dateBR = new Date(dateUTC).toLocaleDateString("pt-BR", {
-    timeZone: "America/Sao_Paulo"
+  const dateBR = new Date(dateUTC).toLocaleDateString('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
   })
   const query =
-    "INSERT INTO tbl_employees (employee_id, employee_name, employee_cpf, employee_email, employee_tel, employee_departament, employee_gender, employee_wage, created_at)" +
-    "VALUES(?,?,?,?,?,?,?,?,?)"
+    'INSERT INTO tbl_employees (employee_id, employee_name, employee_cpf, employee_email, employee_tel, employee_departament, employee_gender, employee_wage, created_at)' +
+    'VALUES(?,?,?,?,?,?,?,?,?)'
 
   const EmployeeAdded = await connection.execute(query, [
     employee_id,
@@ -42,13 +42,13 @@ const employeeAdded = async (employee) => {
     employee_departament,
     employee_gender,
     employee_wage,
-    dateBR
+    dateBR,
   ])
 
   return EmployeeAdded[0]
 }
 
-const updateEmployee = async (employee_id, employee) => {
+export const updateEmployee = async (employee_id, employee) => {
   const {
     employee_name,
     employee_cpf,
@@ -56,11 +56,11 @@ const updateEmployee = async (employee_id, employee) => {
     employee_tel,
     employee_departament,
     employee_gender,
-    employee_wage
+    employee_wage,
   } = employee
   const query =
-    "UPDATE tbl_employees SET employee_name = ?, employee_cpf = ?, employee_email = ?, employee_tel = ?, employee_departament = ?," +
-    "employee_gender = ?, employee_wage = ? WHERE employee_id = ?"
+    'UPDATE tbl_employees SET employee_name = ?, employee_cpf = ?, employee_email = ?, employee_tel = ?, employee_departament = ?,' +
+    'employee_gender = ?, employee_wage = ? WHERE employee_id = ?'
 
   const updatedEmployee = await connection.execute(query, [
     employee_id,
@@ -70,22 +70,15 @@ const updateEmployee = async (employee_id, employee) => {
     employee_tel,
     employee_departament,
     employee_gender,
-    employee_wage
+    employee_wage,
   ])
 
   return updatedEmployee
 }
 
-const deleteEmployee = async (employee_id) => {
-  const query = "DELETE FROM tbl_employees WHERE employee_id = ?"
+export const deleteEmployee = async (employee_id) => {
+  const query = 'DELETE FROM tbl_employees WHERE employee_id = ?'
   const removedEmployee = await connection.execute(query, [employee_id])
 
   return removedEmployee
-}
-
-module.exports = {
-  getAll,
-  employeeAdded,
-  deleteEmployee,
-  updateEmployee
 }
