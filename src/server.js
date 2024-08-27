@@ -7,5 +7,5 @@ const PORT = process.env.PORT || 3333 // se a variável de ambiente PORT não ex
 
 // iniciando o servidor
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} 🚀`)
+   console.log(`Server running on port ${PORT} 🚀`)
 })

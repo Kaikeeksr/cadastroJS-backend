@@ -2,7 +2,7 @@
     "semi": false,
     "singleQuote": true,
     "printWidth": 80,
-    "tabWidth": 2,
+    "tabWidth": 3,
     "useTabs": false,
     "jsxBracketSameLine": true,
     "arrowParens": "always",
@@ -10,12 +10,11 @@
     "htmlWhitespaceSensitivity": "css",
     "vueIndentScriptAndStyle": false,
     "overrides": [
-      {
-        "files": "*.vue",
-        "options": {
-          "singleQuote": false
+        {
+            "files": "*.vue",
+            "options": {
+                "singleQuote": false
+            }
         }
-      }
     ]
-  }
-  
+}
