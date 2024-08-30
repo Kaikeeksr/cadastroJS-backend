@@ -20,5 +20,7 @@ export function errorHandler(res, error) {
             break
       }
       return res.status(400).json({ error: error_msg })
+   } else {
+      return res.status(400).json({ error: error })
    }
 }
