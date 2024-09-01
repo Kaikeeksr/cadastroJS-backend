@@ -80,7 +80,7 @@ export const updateEmployee = async (employee_id, employee) => {
 }
 
 export const deleteEmployee = async (employee_id) => {
-   const query = 'DELETE FROM tbl_employees WHERE employee_id = ?'
+   const query = 'UPDATE tbl_employees SET e_status = "Z" WHERE e_id = ?'
    const removedEmployee = await connection.execute(query, [employee_id])
 
    return removedEmployee
