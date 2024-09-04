@@ -10,6 +10,16 @@ export const getAll = async (req, res) => {
    }
 }
 
+export const getOne = async (req, res) => {
+   try {
+      const id = req.params.employee_id
+      const user = await userModel.getOne(id)
+      res.status(200).json(user)
+   } catch (error) {
+      errorHandler(res, error)
+   }
+}
+
 export const employeeAdded = async (req, res) => {
    try {
       const newEmployee = await userModel.employeeAdded(req.body)
@@ -22,7 +32,7 @@ export const employeeAdded = async (req, res) => {
 export const updateEmployee = async (req, res) => {
    try {
       const updatedEmployee = await userModel.updateEmployee(
-         req.params.employee_id,
+         req.body.e_id,
          req.body
       )
       res.status(200).json(updatedEmployee)

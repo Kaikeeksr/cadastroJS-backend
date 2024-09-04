@@ -14,6 +14,13 @@ export const getAll = async () => {
    return employees[0] // retornando a primeira posição do array
 }
 
+export const getOne = async (employee_id) => {
+   const query = 'SELECT * FROM tbl_employees WHERE e_id = ?'
+   const editEmployee = await connection.execute(query, [employee_id])
+
+   return editEmployee[0][0] //melhorar essa bomba de retorno (mas lembre-se que tá funfando)
+}
+
 export const employeeAdded = async (employee) => {
    const {
       e_id,
@@ -52,29 +59,22 @@ export const employeeAdded = async (employee) => {
 }
 
 export const updateEmployee = async (employee_id, employee) => {
-   const {
-      employee_name,
-      employee_cpf,
-      employee_email,
-      employee_tel,
-      employee_departament,
-      employee_gender,
-      employee_wage,
-   } = employee
-   const query =
-      'UPDATE tbl_employees SET employee_name = ?, employee_cpf = ?, employee_email = ?, employee_tel = ?, employee_departament = ?,' +
-      'employee_gender = ?, employee_wage = ? WHERE employee_id = ?'
+   const query = `
+      UPDATE tbl_employees
+      SET
+         e_name = :e_name,
+         e_cpf = :e_cpf,
+         e_email = :e_email,
+         e_tel = :e_tel,
+         e_departament = :e_departament,
+         e_gender = :e_gender,
+         e_wage = :e_wage
+      WHERE e_id = :e_id
+   `
 
-   const updatedEmployee = await connection.execute(query, [
-      employee_id,
-      employee_name,
-      employee_cpf,
-      employee_email,
-      employee_tel,
-      employee_departament,
-      employee_gender,
-      employee_wage,
-   ])
+   const [updatedEmployee] = await connection.execute(query, employee, {
+      namedPlaceholders: true,
+   })
 
    return updatedEmployee
 }
