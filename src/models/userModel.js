@@ -33,12 +33,14 @@ export const employeeAdded = async (employee) => {
       e_wage,
    } = employee
    const dateUTC = new Date(Date.now()).toUTCString()
+   //Sun, 23 July 12:58:00
    const dateBR = new Date(dateUTC).toLocaleDateString('pt-BR', {
       timeZone: 'America/Sao_Paulo',
    })
    //A -> ATIVO | Z -> DESATIVADO
    const e_status = 'A'
    const query =
+      //p_ins_add_empl employee
       'INSERT INTO tbl_employees (e_id, e_name, e_cpf, e_email, e_tel, e_departament, e_gender, e_wage, created_at, e_status)' +
       'VALUES(?,?,?,?,?,?,?,?,?,?)'
 

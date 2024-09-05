@@ -9,13 +9,13 @@ export function errorHandler(res, error) {
       let error_msg = ''
 
       switch (duplicated_db_field) {
-         case 'employee_cpf':
+         case 'e_cpf':
             error_msg = `O CPF: ${duplicated_db_val} já foi cadastrado. Insira um CPF diferente`
             break
-         case 'employee_email':
+         case 'e_email':
             error_msg = `O e-mail: ${duplicated_db_val} já foi cadastrado. Insira um e-mail diferente`
             break
-         case 'employee_id':
+         case 'e_id':
             error_msg = `O usuário com ID: ${duplicatedDbVal} já existe`
             break
       }
